@@ -3,9 +3,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // const initialState = {
 //   value: [],
 // };
+const apiUrl = process.env.REACT_APP_BE_URL;
 export const fetchUsers = createAsyncThunk('users/fetchAll', async thunkAPI => {
   try {
-    const response = await fetch('http://localhost:5000/api/users');
+    const response = await fetch(`${apiUrl}/api/users`);
     if (response.ok) {
       const data = await response.json();
       return data;
@@ -19,7 +20,7 @@ export const postNewUser = createAsyncThunk(
   'users/postNewUser',
   async payload => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users`, {
+      const response = await fetch(`${apiUrl}/api/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -42,12 +43,9 @@ export const deleteUserById = createAsyncThunk(
   'users/deleteById',
   async userId => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/users/${userId}`,
-        {
-          method: 'DELETE',
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/users/${userId}`, {
+        method: 'DELETE',
+      });
       if (response.ok) {
         const data = await response.json();
         return data;
